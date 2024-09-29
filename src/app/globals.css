@@ -1,0 +1,10 @@
+body {
+  margin: 0;
+}
+
+:root {
+  --primary-color: #9754cb;
+  --secondary-color: #deacf5;
+  --accent-color: #6237a0;
+  --background-color: #28104e;
+}
