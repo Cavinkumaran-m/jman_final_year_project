@@ -1,0 +1,30 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlserver"
+  url      = env("DATABASE_URL")
+}
+
+model courses {
+  course_id           Int    @id(map: "PK_courses")
+  course_title        String @db.NVarChar(100)
+  num_subscribers     Int
+  num_reviews         Int    @db.SmallInt
+  num_lectures        Int    @db.SmallInt
+  level               String @db.NVarChar(50)
+  content_duration    Float
+  published_timestamp String @db.NVarChar(50)
+  subject             String @db.NVarChar(50)
+}
+
+model users {
+  UserID       Int       @id(map: "PK__Users__1788CCAC754CE9F7") @default(autoincrement())
+  UserName     String    @db.NVarChar(100)
+  FullName     String    @db.NVarChar(100)
+  Email        String    @unique(map: "UQ__Users__A9D1053480A96126") @db.NVarChar(255)
+  PasswordHash String    @db.NVarChar(255)
+  Role         String    @default("employee", map: "DF__Users__Role__4AB81AF0") @db.NVarChar(50)
+  RegisteredAt DateTime? @default(now(), map: "DF__Users__Registere__4BAC3F29") @db.DateTime
+}
