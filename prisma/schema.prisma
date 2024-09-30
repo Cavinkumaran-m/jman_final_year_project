@@ -20,11 +20,10 @@ model courses {
 }
 
 model users {
-  UserID       Int       @id(map: "PK__Users__1788CCAC754CE9F7") @default(autoincrement())
-  UserName     String    @db.NVarChar(100)
   FullName     String    @db.NVarChar(100)
-  Email        String    @unique(map: "UQ__Users__A9D1053480A96126") @db.NVarChar(255)
+  UserName     String    @id(map: "PK__users__C9F284576B039D3A") @db.NVarChar(100)
+  Email        String    @unique(map: "UQ__users__A9D1053440663212") @db.NVarChar(255)
   PasswordHash String    @db.NVarChar(255)
-  Role         String    @default("employee", map: "DF__Users__Role__4AB81AF0") @db.NVarChar(50)
-  RegisteredAt DateTime? @default(now(), map: "DF__Users__Registere__4BAC3F29") @db.DateTime
+  Role         String    @default("employee", map: "DF__users__Role__4F7CD00D") @db.NVarChar(50)
+  RegisteredAt DateTime? @default(now(), map: "DF__users__Registere__5070F446") @db.DateTime
 }

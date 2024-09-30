@@ -10,6 +10,8 @@ export default function SignInForm() {
   const [isSignIn, setSignIn] = useState(true);
   const [Error, setError] = useState<string | null>(null);
   const userNameRef = useRef<HTMLInputElement>(null);
+  const fullNameRef = useRef<HTMLInputElement>(null);
+  const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
   const password2Ref = useRef<HTMLInputElement>(null);
 
@@ -17,12 +19,22 @@ export default function SignInForm() {
     const username = userNameRef.current?.value;
     const password = passwordRef.current?.value;
     const password2 = password2Ref.current?.value;
+    const email = emailRef.current?.value;
+    const fullName = fullNameRef.current?.value;
     if (username?.trim().length === 0) {
       setError("Fill UserName Field !");
       return false;
     }
     if (password?.trim().length === 0) {
       setError("Fill Password Field !");
+      return false;
+    }
+    if (!login && email?.trim().length === 0) {
+      setError("Fill Email Field !");
+      return false;
+    }
+    if (!login && fullName?.trim().length === 0) {
+      setError("Fill full Name Field !");
       return false;
     }
     if (!login && password2?.trim().length === 0) {
@@ -40,14 +52,61 @@ export default function SignInForm() {
     if (!validate(true)) {
       return;
     }
-    fetch(baseUrl + "auth/");
+    const username = userNameRef.current?.value;
+    const password = passwordRef.current?.value;
+
+    fetch(baseUrl + "auth/login", {
+      method: "POST",
+      headers: { "content-Type": "application/json" },
+      body: JSON.stringify({
+        username,
+        password,
+      }),
+    })
+      .then((response) => {
+        if (response.status !== 200) {
+          console.log("Error");
+          return null;
+        }
+        return response.json();
+      })
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((error) => console.log(error));
     setError(null);
   };
 
-  const SignUpHandler = () => {
+  const SignUpHandler = async () => {
     if (!validate(false)) {
       return;
     }
+    const username = userNameRef.current?.value;
+    const password = passwordRef.current?.value;
+    const email = emailRef.current?.value;
+    const fullName = fullNameRef.current?.value;
+
+    fetch(baseUrl + "auth/signup", {
+      method: "POST",
+      headers: { "content-Type": "application/json" },
+      body: JSON.stringify({
+        username,
+        password,
+        email,
+        fullName,
+      }),
+    })
+      .then((response) => {
+        if (response.status !== 200) {
+          console.log("Error");
+          return null;
+        }
+        return response.json();
+      })
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((error) => console.log(error));
     setError(null);
   };
 
@@ -62,6 +121,24 @@ export default function SignInForm() {
           className="mb-2"
           ref={userNameRef}
         />
+        {!isSignIn && (
+          <>
+            <label>Full Name</label>
+            <input
+              ref={fullNameRef}
+              type="text"
+              placeholder="Your Full Name"
+              className="mb-2"
+            />
+            <label>Email</label>
+            <input
+              ref={emailRef}
+              type="email"
+              placeholder="ck@gmail.com"
+              className="mb-2"
+            />
+          </>
+        )}
         <label>Password</label>
         <input
           type="password"
