@@ -4,6 +4,7 @@ import { useState } from "react";
 import Button from "./Button";
 import styles from "./SignInForm.module.css";
 import { useRef } from "react";
+import baseUrl from "@/configs/Baseurl";
 
 export default function SignInForm() {
   const [isSignIn, setSignIn] = useState(true);
@@ -39,6 +40,7 @@ export default function SignInForm() {
     if (!validate(true)) {
       return;
     }
+    fetch(baseUrl + "auth/");
     setError(null);
   };
 
