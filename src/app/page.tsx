@@ -1,22 +1,86 @@
 "use client";
 
-import { useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { useAuthContext } from "@/configs/Context";
+import baseUrl from "@/configs/Baseurl";
+import { CourseCard } from "@/components/CourseCards";
 
 export default function Home() {
-  const router = useRouter();
+  const { id, loggedIn } = useAuthContext();
 
-  // useEffect(() => {
-  // console.log({ status, data });
-  // if (status === "unauthenticated") router.replace("/auth");
-  // }, [status]);
+  const [data, setData] = useState<[] | null>(null);
+  // const [enrolled, setEnrolled] = useState<[] | null>(null);
+  // const [assigned, setAssigned] = useState<[] | null>(null);
+  // const [recommended, setRecommended] = useState<[] | null>(null);
 
-  // if (status === "authenticated") {
-  // return <div>Welcome Home</div>;
-  // }
+  useEffect(() => {
+    if (!loggedIn) {
+      return;
+    }
+    fetch(baseUrl + "courses", {
+      method: "POST",
+      headers: { "content-Type": "application/json" },
+      body: JSON.stringify({
+        type: "user_courses",
+        data: { userId: id },
+      }),
+    })
+      .then((response) => {
+        if (response.status !== 200) {
+          response.json().then((res) => console.log(res.error));
+          return null;
+        }
+        return response.json();
+      })
+      .then((res) => {
+        if (res) {
+          setData(res.data);
+          // console.log(res.data);
+        }
+      })
+      .catch((error) => console.log("cav", error));
+  }, []);
+
   return (
-    <center>
-      <h1>loading</h1>
-    </center>
+    <div className="container">
+      <div className="display-6 mt-2">Courses Assigned</div>
+      <div className="row">
+        {data
+          ?.filter((course: userCourseType) => course.status === "assigned")
+          .map((course: userCourseType, i) => (
+            <CourseCard
+              title={course.courses.course_title}
+              duration={course.courses.content_duration}
+              lectures={course.courses.num_lectures}
+              subject={course.courses.subject}
+              id={course.course_id}
+              enrolled_at={course.enrolled_at}
+              progress={course.progress}
+              status={course.status}
+              key={i}
+              owned={true}
+            />
+          ))}
+      </div>
+      <div className="display-6 mt-2">Courses Undertaken</div>
+      <div className="row">
+        {data
+          ?.filter((course: userCourseType) => course.status === "undertaken")
+          .map((course: userCourseType, i) => (
+            <CourseCard
+              title={course.courses.course_title}
+              duration={course.courses.content_duration}
+              lectures={course.courses.num_lectures}
+              subject={course.courses.subject}
+              id={course.course_id}
+              enrolled_at={course.enrolled_at}
+              progress={course.progress}
+              status={course.status}
+              key={i}
+              owned={true}
+            />
+          ))}
+      </div>
+    </div>
   );
 }

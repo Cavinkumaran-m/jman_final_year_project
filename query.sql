@@ -9,4 +9,18 @@ CREATE TABLE users (
 
 select 
 	* 
-from dbo.users;
+from dbo.user_courses;
+
+CREATE TABLE user_courses (
+    user_course_id INT IDENTITY(1,1) PRIMARY KEY,
+    user_id INT NOT NULL,
+    course_id INT NOT NULL,
+    status VARCHAR(50) NOT NULL, -- [assigned, undertaken]
+    progress DECIMAL(5, 2) NOT NULL DEFAULT 0.00,
+    enrolled_at DATETIME DEFAULT GETDATE(),
+    completed_at DATETIME NULL,
+    FOREIGN KEY (user_id) REFERENCES users(UserID),
+    FOREIGN KEY (course_id) REFERENCES courses(course_id)
+);
+
+insert into user_courses (user_id, course_id, status, progress) values (1,16646, 'undertaken', 0);

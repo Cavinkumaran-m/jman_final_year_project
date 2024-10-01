@@ -5,8 +5,13 @@ import Button from "./Button";
 import styles from "./SignInForm.module.css";
 import { useRef } from "react";
 import baseUrl from "@/configs/Baseurl";
+import { useAuthContext } from "@/configs/Context";
+import { useRouter } from "next/navigation";
 
 export default function SignInForm() {
+  const router = useRouter();
+  const { setUserName, setIsAdmin, setLoggedIn, setFullName, setId } =
+    useAuthContext();
   const [isSignIn, setSignIn] = useState(true);
   const [Error, setError] = useState<string | null>(null);
   const userNameRef = useRef<HTMLInputElement>(null);
@@ -65,15 +70,22 @@ export default function SignInForm() {
     })
       .then((response) => {
         if (response.status !== 200) {
-          console.log("Error");
+          response.json().then((res) => console.log(res.error));
           return null;
         }
         return response.json();
       })
       .then((res) => {
-        console.log(res);
+        if (res) {
+          setFullName(res.fullName);
+          setIsAdmin(res.role === "admin" ? true : false);
+          setLoggedIn(true);
+          setUserName(res.userName);
+          setId(res.id);
+          router.push("/");
+        }
       })
-      .catch((error) => console.log(error));
+      .catch((error) => console.log("cav", error));
     setError(null);
   };
 

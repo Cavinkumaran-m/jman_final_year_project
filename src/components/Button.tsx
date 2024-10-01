@@ -1,17 +1,17 @@
 import styles from "./Button.module.css";
 
+interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  children: string | React.ReactNode;
+}
+
 export default function Button({
   children,
   className,
-  onClick,
-}: {
-  children: string | React.ReactNode;
-  className?: string | undefined;
-  onClick?: () => void;
-}) {
+  ...props // Spread other attributes
+}: ButtonProps) {
   return (
-    <div onClick={onClick} className={`${styles.button} ${className}`}>
+    <button {...props} className={`${styles.button} btn btn-sm ${className}`}>
       {children}
-    </div>
+    </button>
   );
 }

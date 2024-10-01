@@ -8,22 +8,37 @@ datasource db {
 }
 
 model courses {
-  course_id           Int    @id(map: "PK_courses")
-  course_title        String @db.NVarChar(100)
+  course_id           Int            @id(map: "PK_courses")
+  course_title        String         @db.NVarChar(100)
   num_subscribers     Int
-  num_reviews         Int    @db.SmallInt
-  num_lectures        Int    @db.SmallInt
-  level               String @db.NVarChar(50)
+  num_reviews         Int            @db.SmallInt
+  num_lectures        Int            @db.SmallInt
+  level               String         @db.NVarChar(50)
   content_duration    Float
-  published_timestamp String @db.NVarChar(50)
-  subject             String @db.NVarChar(50)
+  published_timestamp String         @db.NVarChar(50)
+  subject             String         @db.NVarChar(50)
+  user_courses        user_courses[]
 }
 
 model users {
-  FullName     String    @db.NVarChar(100)
-  UserName     String    @id(map: "PK__users__C9F284576B039D3A") @db.NVarChar(100)
-  Email        String    @unique(map: "UQ__users__A9D1053440663212") @db.NVarChar(255)
-  PasswordHash String    @db.NVarChar(255)
-  Role         String    @default("employee", map: "DF__users__Role__4F7CD00D") @db.NVarChar(50)
-  RegisteredAt DateTime? @default(now(), map: "DF__users__Registere__5070F446") @db.DateTime
+  UserID       Int            @id(map: "PK__Users__1788CCAC754CE9F7") @default(autoincrement())
+  UserName     String         @db.NVarChar(100)
+  FullName     String         @db.NVarChar(100)
+  Email        String         @unique(map: "UQ__Users__A9D1053480A96126") @db.NVarChar(255)
+  PasswordHash String         @db.NVarChar(255)
+  Role         String         @default("employee", map: "DF__Users__Role__4AB81AF0") @db.NVarChar(50)
+  RegisteredAt DateTime?      @default(now(), map: "DF__Users__Registere__4BAC3F29") @db.DateTime
+  user_courses user_courses[]
+}
+
+model user_courses {
+  user_course_id Int       @id(map: "PK__user_cou__651E08268E6CDD97") @default(autoincrement())
+  user_id        Int
+  course_id      Int
+  status         String    @db.VarChar(50)
+  progress       Decimal   @default(0.00, map: "DF__user_cour__progr__4E88ABD4") @db.Decimal(5, 2)
+  enrolled_at    DateTime? @default(now(), map: "DF__user_cour__enrol__4F7CD00D") @db.DateTime
+  completed_at   DateTime? @db.DateTime
+  courses        courses   @relation(fields: [course_id], references: [course_id], onUpdate: NoAction, map: "FK__user_cour__cours__5165187F")
+  users          users     @relation(fields: [user_id], references: [UserID], onUpdate: NoAction, map: "FK__user_cour__user___5070F446")
 }

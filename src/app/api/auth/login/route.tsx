@@ -1,8 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { PrismaClient, Prisma } from "@prisma/client";
 import bcrypt from "bcrypt";
-
-const prisma = new PrismaClient();
+import prisma from "@/configs/Prisma";
 
 export async function POST(request: NextRequest) {
   const { username, password } = await request.json();
@@ -14,19 +12,20 @@ export async function POST(request: NextRequest) {
   if (user) {
     const isPasswordValid = await bcrypt.compare(password, user.PasswordHash);
     if (isPasswordValid) {
-      return NextResponse.json({
-        status: 200,
-        data: {
+      return NextResponse.json(
+        {
           fullName: user.FullName,
           email: user.Email,
           userName: user.UserName,
           role: user.Role,
+          id: user.UserID,
         },
-      });
+        { status: 200 }
+      );
     } else {
-      return NextResponse.json({ message: "Password Wrong" });
+      return NextResponse.json({ error: "Password Wrong" }, { status: 403 });
     }
   } else {
-    return NextResponse.json({ error: "User Not Found" });
+    return NextResponse.json({ error: "User Not Found" }, { status: 400 });
   }
 }

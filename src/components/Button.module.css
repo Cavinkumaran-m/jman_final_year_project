@@ -10,4 +10,5 @@
   cursor: pointer;
   background-color: white !important;
   color: var(--accent-color);
+  border: 1px var(--accent-color) solid;
 }
