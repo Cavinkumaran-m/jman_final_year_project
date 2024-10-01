@@ -23,4 +23,4 @@ CREATE TABLE user_courses (
     FOREIGN KEY (course_id) REFERENCES courses(course_id)
 );
 
-insert into user_courses (user_id, course_id, status, progress) values (1,16646, 'undertaken', 0);
+insert into user_courses (user_id, course_id, status, progress) values (1,19603, 'assigned', 0);
