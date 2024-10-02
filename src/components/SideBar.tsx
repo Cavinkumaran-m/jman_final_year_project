@@ -23,7 +23,7 @@ export const SideBar = () => {
         <Link href={"/"} style={{ textDecoration: "none" }}>
           HOME
         </Link>
-        <Link href={"/browse"} style={{ textDecoration: "none" }}>
+        <Link href={"/course"} style={{ textDecoration: "none" }}>
           BROWSE COURSE
         </Link>
       </div>

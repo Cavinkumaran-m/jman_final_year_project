@@ -7,6 +7,7 @@ import BootstrapJS from "@/configs/BootStrapJS";
 import "./globals.css";
 import Context from "../configs/Context";
 import { useState } from "react";
+import Modal from "@/components/Modal";
 
 export default function RootLayout({
   children,

@@ -50,4 +50,48 @@ export async function POST(request: NextRequest) {
       { status: 200 }
     );
   }
+  if (type === "update_progress") {
+    const user_courses = await prisma.user_courses.update({
+      where: {
+        user_course_id: data.userCourseId,
+      },
+      data: { progress: data.progress },
+    });
+    return NextResponse.json(
+      {
+        message: "Progress Updated Successfully",
+      },
+      { status: 200 }
+    );
+  }
+  if (type === "add_course") {
+    const user_course = await prisma.user_courses.findFirst({
+      where: {
+        AND: [{ course_id: data.courseId }, { user_id: data.userId }],
+      },
+    });
+    if (!user_course) {
+      const user_courses = await prisma.user_courses.create({
+        data: {
+          user_id: data.userId,
+          course_id: data.courseId,
+          status: data.status,
+          progress: 0,
+        },
+      });
+      return NextResponse.json(
+        {
+          message: "Course Enrolled Successfully",
+        },
+        { status: 200 }
+      );
+    } else {
+      return NextResponse.json(
+        {
+          error: "Course Already Enrolled",
+        },
+        { status: 400 }
+      );
+    }
+  }
 }

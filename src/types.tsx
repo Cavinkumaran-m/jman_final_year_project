@@ -20,3 +20,9 @@ type userCourseType = {
   completed_at: string | null;
   courses: CourseType;
 };
+
+type modalDataType = {
+  title: string;
+  content: string;
+  course_id: number;
+};

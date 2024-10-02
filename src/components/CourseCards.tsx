@@ -2,6 +2,8 @@
 
 import Button from "./Button";
 import { useRouter } from "next/navigation";
+import { useModalContext } from "@/configs/Context";
+import { useEffect } from "react";
 
 export const CourseCard = ({
   id,
@@ -26,11 +28,21 @@ export const CourseCard = ({
   status?: string;
   owned: boolean;
 }) => {
+  if (!owned) {
+    var { setModalData } = useModalContext();
+  }
+
   const router = useRouter();
 
   const clickHandler = () => {
     if (owned) {
       router.push("/course/" + id);
+    } else {
+      setModalData({
+        title: "Confirm Enrollment",
+        content: " Are you want to enroll in the course:\n" + title,
+        course_id: id,
+      });
     }
   };
 
@@ -44,6 +56,7 @@ export const CourseCard = ({
             <div className="card-text mb-1 d-flex justify-content-around">
               <div>🕗{Math.round(duration)} Hrs</div>
               <div>📄{lectures}</div>
+              {id}
             </div>
           )}
           {owned && (
@@ -60,7 +73,12 @@ export const CourseCard = ({
               </div>
             </div>
           )}
-          <Button className="mt-2" onClick={clickHandler}>
+          <Button
+            className="mt-2"
+            onClick={clickHandler}
+            data-bs-target={!owned ? "#exampleModal" : ""}
+            data-bs-toggle={!owned ? "modal" : ""}
+          >
             {owned ? "Continue Learning" : "Enroll Now"}
           </Button>
         </div>
