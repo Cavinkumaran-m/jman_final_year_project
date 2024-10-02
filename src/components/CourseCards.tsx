@@ -39,8 +39,8 @@ export const CourseCard = ({
       router.push("/course/" + id);
     } else {
       setModalData({
-        title: "Confirm Enrollment",
-        content: " Are you want to enroll in the course:\n" + title,
+        title: "Are you want to enroll in the course ?",
+        content: title,
         course_id: id,
       });
     }
@@ -79,7 +79,11 @@ export const CourseCard = ({
             data-bs-target={!owned ? "#exampleModal" : ""}
             data-bs-toggle={!owned ? "modal" : ""}
           >
-            {owned ? "Continue Learning" : "Enroll Now"}
+            {owned
+              ? progress === "100"
+                ? "Completed"
+                : "Continue Learning"
+              : "Enroll Now"}
           </Button>
         </div>
       </div>

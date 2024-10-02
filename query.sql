@@ -11,6 +11,10 @@ select
 	* 
 from dbo.user_courses;
 
+delete from user_courses where 1=1
+
+update user_courses set progress=100 where course_id=8325;
+
 CREATE TABLE user_courses (
     user_course_id INT IDENTITY(1,1) PRIMARY KEY,
     user_id INT NOT NULL,
