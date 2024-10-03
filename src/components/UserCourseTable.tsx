@@ -130,11 +130,15 @@ export default function UserCourseTable({
                   <Button
                     onClick={() => {
                       setModalData({
-                        title: "Are you want to enroll in the course ?",
-                        content: title,
-                        course_id: id,
+                        title: "Are you sure want to un-register the course ?",
+                        content: datum.courses.course_title,
+                        onClickAction: () => {
+                          editHandler(
+                            datum.user_course_id,
+                            "delete_user_course"
+                          );
+                        },
                       });
-                      editHandler(datum.user_course_id, "delete_user_course");
                     }}
                     className="btn-sm"
                     style={{ fontSize: "20px", padding: 0 }}

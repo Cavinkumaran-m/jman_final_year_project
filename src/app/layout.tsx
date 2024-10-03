@@ -51,9 +51,13 @@ export default function RootLayout({
             clearAuth,
           }}
         >
-          <Modal title={modalData?.title} content={modalData?.content} />
           <Header />
           <SideBar />
+          <Modal
+            title={modalData?.title}
+            content={modalData?.content}
+            onClickAction={modalData?.onClickAction}
+          />
           <ModalContext.Provider value={{ modalData, setModalData }}>
             {children}
           </ModalContext.Provider>

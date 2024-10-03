@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useModalContext } from "@/configs/Context";
 import { useEffect } from "react";
 import baseUrl from "@/configs/Baseurl";
+import { useAuthContext } from "@/configs/Context";
 
 export const CourseCard = ({
   id,
@@ -29,6 +30,7 @@ export const CourseCard = ({
   status?: string;
   owned: boolean;
 }) => {
+  const userId = useAuthContext().id;
   if (!owned) {
     var { setModalData } = useModalContext();
   }
@@ -42,8 +44,7 @@ export const CourseCard = ({
       setModalData({
         title: "Are you want to enroll in the course ?",
         content: title,
-        course_id: id,
-        onclickAction: () => {
+        onClickAction: () => {
           fetch(baseUrl + "courses", {
             method: "POST",
             headers: {
@@ -51,7 +52,7 @@ export const CourseCard = ({
             },
             body: JSON.stringify({
               type: "add_course",
-              data: { userId: id, courseId: id, status: "undertaken" },
+              data: { userId: userId, courseId: id, status: "undertaken" },
             }),
           })
             .then((response) => {

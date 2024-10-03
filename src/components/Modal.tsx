@@ -8,7 +8,7 @@ export default function Modal({
 }: {
   title?: string;
   content?: string;
-  onClickAction?: () => {};
+  onClickAction?: () => void;
 }) {
   const { id } = useAuthContext();
 
@@ -46,7 +46,11 @@ export default function Modal({
               <button
                 type="button"
                 className="btn btn-primary"
-                onClick={onClickAction}
+                onClick={() => {
+                  if (onClickAction) {
+                    onClickAction();
+                  }
+                }}
                 data-bs-dismiss="modal"
               >
                 Accept

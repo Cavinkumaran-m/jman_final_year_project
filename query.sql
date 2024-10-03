@@ -9,11 +9,12 @@ CREATE TABLE users (
 
 select 
 	* 
-from dbo.user_courses;
+from dbo.courses;
 
 delete from user_courses where 1=1
 
 update user_courses set progress=100 where course_id=8325;
+update users set Role='admin' where UserName='admin';
 
 CREATE TABLE user_courses (
     user_course_id INT IDENTITY(1,1) PRIMARY KEY,
@@ -28,3 +29,6 @@ CREATE TABLE user_courses (
 );
 
 insert into user_courses (user_id, course_id, status, progress) values (1,19603, 'assigned', 0);
+
+insert into users (FullName, UserName,Email,PasswordHash,Role , RegisteredAt) 
+values ('ADMIN KUMAARU','admin', 'admin@jman.com', );

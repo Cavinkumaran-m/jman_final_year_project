@@ -25,7 +25,7 @@ type userCourseType = {
 type modalDataType = {
   title: string;
   content: string;
-  onClickAction: () => {};
+  onClickAction: () => void;
 };
 
 type userType = {
