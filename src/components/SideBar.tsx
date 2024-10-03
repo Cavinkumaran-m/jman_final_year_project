@@ -1,6 +1,8 @@
 import Link from "next/link";
+import { useAuthContext } from "@/configs/Context";
 
 export const SideBar = () => {
+  const { isAdmin } = useAuthContext();
   return (
     <div
       className="offcanvas offcanvas-start"
@@ -26,6 +28,11 @@ export const SideBar = () => {
         <Link href={"/course"} style={{ textDecoration: "none" }}>
           BROWSE COURSE
         </Link>
+        {isAdmin && (
+          <Link href={"/user"} style={{ textDecoration: "none" }}>
+            ADMINISTRATION
+          </Link>
+        )}
       </div>
     </div>
   );

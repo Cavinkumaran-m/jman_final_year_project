@@ -94,4 +94,48 @@ export async function POST(request: NextRequest) {
       );
     }
   }
+  if (type === "delete_user_course") {
+    const user_course = await prisma.user_courses.findUnique({
+      where: {
+        user_course_id: data.user_course_id,
+      },
+    });
+    if (user_course) {
+      const deleted_user_courses = await prisma.user_courses.delete({
+        where: {
+          user_course_id: data.user_course_id,
+        },
+      });
+      return NextResponse.json(
+        {
+          message: "Enrolled Course Removed Successfully",
+        },
+        { status: 200 }
+      );
+    } else {
+      return NextResponse.json(
+        {
+          error: "Course Not Enrolled",
+        },
+        { status: 400 }
+      );
+    }
+  }
+  if (type === "update_score") {
+    const user_course = await prisma.user_courses.update({
+      where: {
+        user_course_id: data.user_course_id,
+      },
+      data: {
+        score: data.score,
+      },
+    });
+
+    return NextResponse.json(
+      {
+        message: "Score Updated Successfully",
+      },
+      { status: 200 }
+    );
+  }
 }

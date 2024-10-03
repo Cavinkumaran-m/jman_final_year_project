@@ -19,10 +19,21 @@ type userCourseType = {
   enrolled_at: string;
   completed_at: string | null;
   courses: CourseType;
+  score: string;
 };
 
 type modalDataType = {
   title: string;
   content: string;
-  course_id: number;
+  onClickAction: () => {};
+};
+
+type userType = {
+  UserID: number;
+  UserName: string;
+  FullName: string;
+  Email: string;
+  Role: string;
+  RegisteredAt: string;
+  user_courses: [userCourseType] | null;
 };

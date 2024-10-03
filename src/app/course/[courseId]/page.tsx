@@ -6,7 +6,7 @@ import { useAuthContext } from "@/configs/Context";
 import styles from "./CourseDetails.module.css";
 import Button from "@/components/Button";
 
-export default function Page({ params }: { params: { id: number } }) {
+export default function Page({ params }: { params: { courseId: number } }) {
   const { id, loggedIn } = useAuthContext();
   const [course, setCourse] = useState<userCourseType | null>(null);
   const [progress, setProgress] = useState(0);
@@ -45,7 +45,7 @@ export default function Page({ params }: { params: { id: number } }) {
 
   useEffect(() => {
     if (!loggedIn) return;
-    fetch(baseUrl + "courses?course=" + params.id + "&user=" + id)
+    fetch(baseUrl + "courses?course=" + params.courseId + "&user=" + id)
       .then((response) => {
         if (response.status !== 200) {
           response.json().then((res) => console.log(res.error));

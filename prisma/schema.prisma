@@ -39,6 +39,7 @@ model user_courses {
   progress       Decimal   @default(0.00, map: "DF__user_cour__progr__4E88ABD4") @db.Decimal(5, 2)
   enrolled_at    DateTime? @default(now(), map: "DF__user_cour__enrol__4F7CD00D") @db.DateTime
   completed_at   DateTime? @db.DateTime
+  score          Decimal?  @db.Decimal(5, 2)
   courses        courses   @relation(fields: [course_id], references: [course_id], onUpdate: NoAction, map: "FK__user_cour__cours__5165187F")
   users          users     @relation(fields: [user_id], references: [UserID], onUpdate: NoAction, map: "FK__user_cour__user___5070F446")
 }

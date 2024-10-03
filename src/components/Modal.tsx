@@ -4,38 +4,13 @@ import { useAuthContext } from "@/configs/Context";
 export default function Modal({
   title,
   content,
-  course_id,
+  onClickAction,
 }: {
   title?: string;
   content?: string;
-  course_id?: number;
+  onClickAction?: () => {};
 }) {
   const { id } = useAuthContext();
-  const submitHandler = () => {
-    fetch(baseUrl + "courses", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        type: "add_course",
-        data: { userId: id, courseId: course_id, status: "undertaken" },
-      }),
-    })
-      .then((response) => {
-        if (response.status !== 200) {
-          response.json().then((res) => console.log(res.error));
-          return null;
-        }
-        return response.json();
-      })
-      .then((res) => {
-        if (res) {
-          console.log(res.message);
-        }
-      })
-      .catch((error) => console.log("cav", error));
-  };
 
   return (
     <>
@@ -71,7 +46,7 @@ export default function Modal({
               <button
                 type="button"
                 className="btn btn-primary"
-                onClick={submitHandler}
+                onClick={onClickAction}
                 data-bs-dismiss="modal"
               >
                 Accept

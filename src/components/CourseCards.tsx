@@ -4,6 +4,7 @@ import Button from "./Button";
 import { useRouter } from "next/navigation";
 import { useModalContext } from "@/configs/Context";
 import { useEffect } from "react";
+import baseUrl from "@/configs/Baseurl";
 
 export const CourseCard = ({
   id,
@@ -42,6 +43,31 @@ export const CourseCard = ({
         title: "Are you want to enroll in the course ?",
         content: title,
         course_id: id,
+        onclickAction: () => {
+          fetch(baseUrl + "courses", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              type: "add_course",
+              data: { userId: id, courseId: id, status: "undertaken" },
+            }),
+          })
+            .then((response) => {
+              if (response.status !== 200) {
+                response.json().then((res) => console.log(res.error));
+                return null;
+              }
+              return response.json();
+            })
+            .then((res) => {
+              if (res) {
+                console.log(res.message);
+              }
+            })
+            .catch((error) => console.log("cav", error));
+        },
       });
     }
   };

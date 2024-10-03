@@ -8,12 +8,14 @@ import "./globals.css";
 import Context from "../configs/Context";
 import { useState } from "react";
 import Modal from "@/components/Modal";
+import { ModalContext } from "@/configs/Context";
 
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const [modalData, setModalData] = useState<modalDataType | null>(null);
   const [userName, setUserName] = useState(null);
   const [fullName, setFullName] = useState(null);
   const [isAdmin, setIsAdmin] = useState(null);
@@ -49,9 +51,12 @@ export default function RootLayout({
             clearAuth,
           }}
         >
+          <Modal title={modalData?.title} content={modalData?.content} />
           <Header />
           <SideBar />
-          {children}
+          <ModalContext.Provider value={{ modalData, setModalData }}>
+            {children}
+          </ModalContext.Provider>
           <BootstrapJS />
         </Context.Provider>
       </body>
