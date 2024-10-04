@@ -11,9 +11,9 @@ export const Header = () => {
   const { userName, isAdmin, loggedIn, clearAuth } = useAuthContext();
   const router = useRouter();
   useEffect(() => {
-    if (!loggedIn) {
-      router.replace("/auth");
-    }
+    // if (!loggedIn) {
+    //   router.replace("/auth");
+    // }
   });
   return (
     <>

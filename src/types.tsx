@@ -4,10 +4,11 @@ type CourseType = {
   num_subscribers: number;
   num_reviews: number;
   num_lectures: number;
-  level: string;
+  level: "easy" | "intermediate" | "hard" | "expert";
   content_duration: number;
   published_timestamp: string;
   subject: string;
+  status?: string; //Only for flow logix
 };
 
 type userCourseType = {
@@ -36,4 +37,12 @@ type userType = {
   Role: string;
   RegisteredAt: string;
   user_courses: [userCourseType] | null;
+};
+
+type FlowNode = {
+  name: string;
+  collapsed?: boolean;
+  id?: number;
+  children?: FlowNode[];
+  status?: string;
 };

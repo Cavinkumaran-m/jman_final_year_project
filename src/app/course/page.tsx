@@ -3,6 +3,7 @@
 import { CourseCard } from "@/components/CourseCards";
 import baseUrl from "@/configs/Baseurl";
 import { useEffect, useState } from "react";
+import { PlaceHolder } from "@/components/PlaceHolder";
 
 export default function Home() {
   const [courseData, setCourseData] = useState<[] | null>(null);
@@ -27,6 +28,15 @@ export default function Home() {
       <div className="container">
         <div className="display-5 mt-2">Browse Courses</div>
         <div className="row">
+          {courseData === null && (
+            <>
+              {Array(8)
+                .fill(1)
+                .map((_, i) => (
+                  <PlaceHolder key={i} />
+                ))}
+            </>
+          )}
           {courseData !== null &&
             courseData?.map((course: CourseType, i) => (
               <CourseCard

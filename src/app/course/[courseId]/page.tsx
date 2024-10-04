@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { useAuthContext } from "@/configs/Context";
 import styles from "./CourseDetails.module.css";
 import Button from "@/components/Button";
+import Spinner from "@/components/Spinner";
 
 export default function Page({ params }: { params: { courseId: number } }) {
   const { id, loggedIn } = useAuthContext();
@@ -65,6 +66,11 @@ export default function Page({ params }: { params: { courseId: number } }) {
 
   return (
     <>
+      {course === null && (
+        <center className="mt-4">
+          <Spinner />
+        </center>
+      )}
       {course !== null && (
         <div className={`container ${styles.courseDetails} mb-4`}>
           <div className="row mt-4 border rounded p-3">

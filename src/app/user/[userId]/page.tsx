@@ -9,6 +9,7 @@ import { useRouter } from "next/navigation";
 import { formatDate } from "@/components/Time";
 import UserCourseTable from "@/components/UserCourseTable";
 import AssignCourseForm from "@/components/AssignCourseForm";
+import Spinner from "@/components/Spinner";
 
 export default function Page({ params }: { params: { userId: string } }) {
   const router = useRouter();
@@ -33,7 +34,6 @@ export default function Page({ params }: { params: { userId: string } }) {
       .then((res) => {
         if (res) {
           setUserData(res.data);
-          //   console.log(res.data);
         }
       })
       .catch((error) => console.log("cav", error));
@@ -41,6 +41,11 @@ export default function Page({ params }: { params: { userId: string } }) {
 
   return (
     <>
+      {user === null && (
+        <center className="mt-4">
+          <Spinner />
+        </center>
+      )}
       {user !== null && (
         <>
           <div className="container mt-3">

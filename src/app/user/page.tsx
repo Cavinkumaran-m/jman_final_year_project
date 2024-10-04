@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import Table from "@/components/UserTable";
 import { useAuthContext } from "@/configs/Context";
 import { useRouter } from "next/navigation";
+import Spinner from "@/components/Spinner";
 
 export default function Page() {
   const router = useRouter();
@@ -34,6 +35,11 @@ export default function Page() {
   return (
     <>
       <div className="container mt-3">
+        {userData === null && (
+          <center>
+            <Spinner />
+          </center>
+        )}
         {userData !== null && <Table data={userData} />}
       </div>
     </>

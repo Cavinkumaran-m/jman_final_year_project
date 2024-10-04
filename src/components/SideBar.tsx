@@ -33,6 +33,9 @@ export const SideBar = () => {
             ADMINISTRATION
           </Link>
         )}
+        <Link href={"/flow"} style={{ textDecoration: "none" }}>
+          COURSE LEARNING PATH
+        </Link>
       </div>
     </div>
   );

@@ -36,7 +36,6 @@ export default function Home() {
       .then((res) => {
         if (res) {
           setData(res.data);
-          // console.log(res.data);
         }
       })
       .catch((error) => console.log("cav", error));
@@ -49,9 +48,11 @@ export default function Home() {
       <div className="row">
         {data === null ? (
           <>
-            {Array(5).map((_) => (
-              <PlaceHolder />
-            ))}
+            {Array(5)
+              .fill(1)
+              .map((_, i) => (
+                <PlaceHolder key={i} />
+              ))}
           </>
         ) : data?.filter(
             (course: userCourseType) => course.status === "assigned"
@@ -82,9 +83,11 @@ export default function Home() {
       <div className="row">
         {data === null ? (
           <>
-            {Array(5).map((_) => (
-              <PlaceHolder />
-            ))}
+            {Array(5)
+              .fill(1)
+              .map((_, i) => (
+                <PlaceHolder key={i} />
+              ))}
           </>
         ) : data?.filter(
             (course: userCourseType) => course.status === "undertaken"
