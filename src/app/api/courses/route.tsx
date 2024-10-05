@@ -51,12 +51,26 @@ export async function POST(request: NextRequest) {
     );
   }
   if (type === "update_progress") {
-    const user_courses = await prisma.user_courses.update({
-      where: {
-        user_course_id: data.userCourseId,
-      },
-      data: { progress: data.progress },
-    });
+    if (data.progress === 100) {
+      const user_courses = await prisma.user_courses.update({
+        where: {
+          user_course_id: data.userCourseId,
+        },
+        data: {
+          progress: data.progress,
+          completed_at: new Date(),
+        },
+      });
+    } else {
+      const user_courses = await prisma.user_courses.update({
+        where: {
+          user_course_id: data.userCourseId,
+        },
+        data: {
+          progress: data.progress,
+        },
+      });
+    }
     return NextResponse.json(
       {
         message: "Progress Updated Successfully",
