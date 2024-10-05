@@ -2,65 +2,48 @@ import baseUrl from "@/configs/Baseurl";
 
 const difficulties = { easy: 0, intermediate: 1, hard: 2, expert: 3 };
 
-export default async function Parser(courseData: CourseType[], userId: number) {
-  return await fetch(baseUrl + "courses", {
-    method: "POST",
-    headers: { "content-Type": "application/json" },
-    body: JSON.stringify({
-      type: "user_courses",
-      data: { userId: userId },
-    }),
-  })
-    .then((response) => {
-      if (response.status !== 200) {
-        response.json().then((res) => console.log(res.error));
-        return null;
-      }
-      return response.json();
-    })
-    .then((res) => {
-      if (res) {
-        const completed = res.data
-          .filter((r: userCourseType) => r.progress === "100")
-          .map((r: userCourseType) => r.course_id);
-        const incompleted = res.data
-          .filter((r: userCourseType) => r.progress !== "100")
-          .map((r: userCourseType) => r.course_id);
-        courseData.map((course) => {
-          if (completed.includes(course.course_id)) {
-            course.status = "completed";
-          }
-        });
-        courseData.map((course) => {
-          if (incompleted.includes(course.course_id)) {
-            course.status = "incompleted";
-          }
-        });
-        const GraphicDesign = seperator(courseData, "Graphic Design");
-        const MusicalInstrument = seperator(courseData, "Musical Instruments");
-        const BusinessFinance = seperator(courseData, "Business Finance");
-        const WebDevelopment = seperator(courseData, "Web Development");
-        const GraphicDesignNode = helper(GraphicDesign, "Graphic Design");
-        const MusicalInstrumentNode = helper(
-          MusicalInstrument,
-          "Musical Instruments"
-        );
-        const BusinessFinanceNode = helper(BusinessFinance, "Business Finance");
-        const WebDevelopmentNode = helper(WebDevelopment, "Web Development");
-        const root = createNode("JLEARN");
-        root.children?.push(GraphicDesignNode);
-        root.children?.push(MusicalInstrumentNode);
-        root.children?.push(BusinessFinanceNode);
-        root.children?.push(WebDevelopmentNode);
+export default function Parser(
+  courseData: CourseType[],
+  res: userCourseType[]
+) {
+  const completed = res
+    .filter((r: userCourseType) => r.progress === "100")
+    .map((r: userCourseType) => r.course_id);
+  const incompleted = res
+    .filter((r: userCourseType) => r.progress !== "100")
+    .map((r: userCourseType) => r.course_id);
+  courseData.map((course) => {
+    if (completed.includes(course.course_id)) {
+      course.status = "completed";
+    }
+  });
+  courseData.map((course) => {
+    if (incompleted.includes(course.course_id)) {
+      course.status = "incompleted";
+    }
+  });
 
-        return root;
-      }
-      return null;
-    })
-    .catch((error) => {
-      console.log("cav", error);
-      return null;
-    });
+  const GraphicDesign = seperator(courseData, "Graphic Design");
+  const MusicalInstrument = seperator(courseData, "Musical Instruments");
+  const BusinessFinance = seperator(courseData, "Business Finance");
+  const WebDevelopment = seperator(courseData, "Web Development");
+
+  const GraphicDesignNode = helper(GraphicDesign, "Graphic Design");
+  const MusicalInstrumentNode = helper(
+    MusicalInstrument,
+    "Musical Instruments"
+  );
+  const BusinessFinanceNode = helper(BusinessFinance, "Business Finance");
+  const WebDevelopmentNode = helper(WebDevelopment, "Web Development");
+
+  const root = createNode("JLEARN");
+
+  root.children?.push(GraphicDesignNode);
+  root.children?.push(MusicalInstrumentNode);
+  root.children?.push(BusinessFinanceNode);
+  root.children?.push(WebDevelopmentNode);
+  console.log(root);
+  return root;
 }
 
 function seperator(courseData: CourseType[], subject: string) {

@@ -9,6 +9,69 @@ import Button from "@/components/Button";
 import styles from "./flowPage.module.css";
 import { useRouter } from "next/navigation";
 import { useAuthContext } from "@/configs/Context";
+import baseUrl from "@/configs/Baseurl";
+
+export default function Page() {
+  const { id } = useAuthContext();
+  const router = useRouter();
+  const [data, setData] = useState(null);
+
+  useEffect(() => {
+    fetch(baseUrl + "courses", {
+      method: "POST",
+      headers: { "content-Type": "application/json" },
+      body: JSON.stringify({
+        type: "user_courses",
+        data: { userId: 1 },
+      }),
+    })
+      .then((response) => {
+        if (response.status !== 200) {
+          response.json().then((res) => console.log(res.error));
+          return null;
+        }
+        return response.json();
+      })
+      .then((res) => {
+        if (res) {
+          setData([Parser(courseData, res.data)]);
+          // console.log(JSON.stringify(Parser(courseData, res.data), null, 2));
+        }
+      })
+      .catch((error) => {
+        console.log("cav", error);
+        return null;
+      });
+  }, []);
+
+  const foreignObjectProps = { width: 200, height: 2000 };
+
+  return (
+    <>
+      {data !== null && (
+        <div className="" style={{ height: "100vh" }}>
+          <Tree
+            data={data}
+            pathFunc={"step"}
+            nodeSize={{ x: 120, y: 200 }}
+            orientation="vertical"
+            renderCustomNodeElement={(rd3tProps) =>
+              renderForeignObjectNode({
+                ...rd3tProps,
+                foreignObjectProps,
+                router,
+              })
+            }
+            separation={{ siblings: 2, nonSiblings: 2.5 }}
+            enableLegacyTransitions={true}
+            initialDepth={1}
+            rootNodeClassName={"rootNode"}
+          />
+        </div>
+      )}
+    </>
+  );
+}
 
 const renderForeignObjectNode = ({
   nodeDatum,
@@ -17,11 +80,13 @@ const renderForeignObjectNode = ({
   router,
 }) => (
   <g>
-    <foreignObject {...foreignObjectProps} x={-100} y={-25}>
+    <foreignObject {...foreignObjectProps} x={-100} y={-60}>
       <div
-        className={`border rounded p-2 ${styles.Node}`}
+        className={`border rounded p-2 ${styles.Node} ${
+          nodeDatum.status === "completed" && "bg-success"
+        } ${nodeDatum.status === "incompleted" && "bg-warning"}`}
         onClick={() => {
-          if (!nodeDatum.children) {
+          if (nodeDatum.status) {
             router.push("/course/" + nodeDatum.id);
           }
         }}
@@ -36,39 +101,3 @@ const renderForeignObjectNode = ({
     </foreignObject>
   </g>
 );
-
-export default function Page() {
-  const { id } = useAuthContext();
-  const router = useRouter();
-  const [data, setData] = useState(null);
-  const nodeSize = { x: 200, y: 300 };
-  const foreignObjectProps = { width: nodeSize.x, height: nodeSize.y, x: 20 };
-  useEffect(() => {
-    setData([Parser(courseData, id)]);
-    console.log(JSON.stringify(Parser(courseData, id), null, 2));
-  }, []);
-
-  return (
-    <>
-      {data !== null && (
-        <div className="" style={{ height: "100vh" }}>
-          <Tree
-            data={data}
-            pathFunc={"step"}
-            nodeSize={nodeSize}
-            orientation="vertical"
-            renderCustomNodeElement={(rd3tProps) =>
-              renderForeignObjectNode({
-                ...rd3tProps,
-                foreignObjectProps,
-                router,
-              })
-            }
-            separation={{ siblings: 2, nonSiblings: 3 }}
-            enableLegacyTransitions={true}
-          />
-        </div>
-      )}
-    </>
-  );
-}
