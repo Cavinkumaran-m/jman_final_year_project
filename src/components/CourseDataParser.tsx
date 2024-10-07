@@ -82,7 +82,9 @@ function createNode(name: string, attributes?: any): FlowNode {
   return {
     name: name,
     collapsed: true,
+    id: attributes?.id,
     children: [],
+    status: attributes?.status,
   };
 }
 
@@ -97,4 +99,25 @@ function createLeafNode(
     id: attributes.id,
     status: status,
   };
+}
+
+export function PathParser(res: userCourseType[]): FlowNode | null {
+  if (res.length === 0) {
+    return null;
+  }
+  const root = createNode(res[0].courses.course_title, {
+    id: res[0].course_id,
+    status: "completed",
+  });
+  var pointer = root;
+  for (var i = 1; i < res.length; i++) {
+    const child = createNode(res[i].courses.course_title, {
+      id: res[i].course_id,
+      status: "completed",
+    });
+    pointer.children?.push(child);
+    pointer = child;
+  }
+
+  return root;
 }

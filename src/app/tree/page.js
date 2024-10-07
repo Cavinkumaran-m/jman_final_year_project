@@ -10,6 +10,7 @@ import styles from "./flowPage.module.css";
 import { useRouter } from "next/navigation";
 import { useAuthContext } from "@/configs/Context";
 import baseUrl from "@/configs/Baseurl";
+import customNode from "@/components/CustomNode";
 
 export default function Page() {
   const { id } = useAuthContext();
@@ -22,7 +23,7 @@ export default function Page() {
       headers: { "content-Type": "application/json" },
       body: JSON.stringify({
         type: "user_courses",
-        data: { userId: 1 },
+        data: { userId: id },
       }),
     })
       .then((response) => {
@@ -56,10 +57,11 @@ export default function Page() {
             nodeSize={{ x: 120, y: 200 }}
             orientation="vertical"
             renderCustomNodeElement={(rd3tProps) =>
-              renderForeignObjectNode({
+              customNode({
                 ...rd3tProps,
                 foreignObjectProps,
                 router,
+                showButton: true,
               })
             }
             separation={{ siblings: 2, nonSiblings: 2.5 }}
@@ -72,32 +74,3 @@ export default function Page() {
     </>
   );
 }
-
-const renderForeignObjectNode = ({
-  nodeDatum,
-  toggleNode,
-  foreignObjectProps,
-  router,
-}) => (
-  <g>
-    <foreignObject {...foreignObjectProps} x={-100} y={-60}>
-      <div
-        className={`border rounded p-2 ${styles.Node} ${
-          nodeDatum.status === "completed" && "bg-success"
-        } ${nodeDatum.status === "incompleted" && "bg-warning"}`}
-        onClick={() => {
-          if (nodeDatum.status) {
-            router.push("/course/" + nodeDatum.id);
-          }
-        }}
-      >
-        <h3 style={{ textAlign: "center" }}>{nodeDatum.name}</h3>
-        {nodeDatum.children && (
-          <Button style={{ width: "100%" }} onClick={toggleNode}>
-            {nodeDatum.__rd3t.collapsed ? "Expand" : "Collapse"}
-          </Button>
-        )}
-      </div>
-    </foreignObject>
-  </g>
-);

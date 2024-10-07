@@ -10,11 +10,13 @@
   },
   "dependencies": {
     "@prisma/client": "^5.20.0",
+    "apexcharts": "^3.54.0",
     "bcrypt": "^5.1.1",
     "bootstrap": "^5.3.3",
     "html-pdf": "^3.0.1",
     "next": "14.2.13",
     "react": "^18",
+    "react-apexcharts": "^1.4.1",
     "react-d3-tree": "^3.6.2",
     "react-dom": "^18"
   },

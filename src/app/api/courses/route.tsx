@@ -152,4 +152,22 @@ export async function POST(request: NextRequest) {
       { status: 200 }
     );
   }
+  if (type === "learning_path") {
+    const user_course = await prisma.user_courses.findMany({
+      where: {
+        user_id: data.user_id,
+      },
+      include: { courses: true },
+      orderBy: {
+        enrolled_at: "asc",
+      },
+    });
+
+    return NextResponse.json(
+      {
+        data: user_course,
+      },
+      { status: 200 }
+    );
+  }
 }

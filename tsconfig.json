@@ -27,7 +27,8 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "src/configs/Context.js",
-    "src/app/flow/page.js"
+    "src/app/tree/page.js",
+    "src/app/path/page.js"
   ],
   "exclude": ["node_modules"]
 }

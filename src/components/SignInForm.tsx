@@ -82,7 +82,7 @@ export default function SignInForm() {
           setLoggedIn(true);
           setUserName(res.userName);
           setId(res.id);
-          router.push("/");
+          res.role === "admin" ? router.push("/dashboard") : router.push("/");
         }
       })
       .catch((error) => console.log("cav", error));

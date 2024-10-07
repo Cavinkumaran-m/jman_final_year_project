@@ -22,9 +22,16 @@ export const SideBar = () => {
         ></button>
       </div>
       <div className="offcanvas-body d-flex flex-column">
-        <Link href={"/"} style={{ textDecoration: "none" }}>
-          HOME
-        </Link>
+        {!isAdmin && (
+          <Link href={"/"} style={{ textDecoration: "none" }}>
+            HOME
+          </Link>
+        )}
+        {isAdmin && (
+          <Link href={"/dashboard"} style={{ textDecoration: "none" }}>
+            DASHBOARD
+          </Link>
+        )}
         <Link href={"/course"} style={{ textDecoration: "none" }}>
           BROWSE COURSE
         </Link>
@@ -33,8 +40,11 @@ export const SideBar = () => {
             ADMINISTRATION
           </Link>
         )}
-        <Link href={"/flow"} style={{ textDecoration: "none" }}>
-          COURSE LEARNING PATH
+        <Link href={"/tree"} style={{ textDecoration: "none" }}>
+          COURSE TREE
+        </Link>
+        <Link href={"/path"} style={{ textDecoration: "none" }}>
+          LEARNING PATH
         </Link>
       </div>
     </div>

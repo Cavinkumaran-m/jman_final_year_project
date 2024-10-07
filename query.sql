@@ -51,10 +51,7 @@ WHERE user_course_id IN (
 -- Delete courses assigned to admin
 delete from user_courses where user_id = 2;
 
-SELECT schema_id('raw');
 
-	
-drop schema raw;
 -- table creation
 DROP TABLE IF EXISTS raw.user_courses;
 DROP TABLE IF EXISTS raw.users;
@@ -99,3 +96,51 @@ CREATE TABLE raw.user_courses (
     CONSTRAINT FK_user_courses_users FOREIGN KEY (user_id) REFERENCES raw.users(UserID),
     CONSTRAINT FK_user_courses_courses FOREIGN KEY (course_id) REFERENCES raw.courses(course_id)
 )
+
+-- Metrics
+
+-- 1. Top 5 users with the highest average score:
+SELECT TOP(5) u.UserID, u.UserName, AVG(uc.score) AS avg_score
+FROM users u
+JOIN user_courses uc ON u.UserID = uc.user_id
+WHERE uc.score IS NOT NULL
+GROUP BY u.UserID, u.UserName
+ORDER BY avg_score DESC;
+
+-- 2. Most assigned courses to users (count of courses with 'assigned' status):
+SELECT TOP(10) c.course_title, COUNT(uc.user_course_id) AS total_assigned
+FROM courses c
+JOIN user_courses uc ON c.course_id = uc.course_id
+WHERE uc.status = 'assigned'
+GROUP BY c.course_title
+ORDER BY total_assigned DESC;
+
+-- 3. Most undertaken courses by users (count of courses with 'undertaken' status):
+SELECT TOP(10) c.course_title, COUNT(uc.user_course_id) AS total_undertaken
+FROM courses c
+JOIN user_courses uc ON c.course_id = uc.course_id
+WHERE uc.status = 'undertaken'
+GROUP BY c.course_title
+ORDER BY total_undertaken DESC;
+
+-- 4. Top 5 users with the most number of courses completed (progress = 100):
+SELECT TOP(10) u.UserID, u.UserName, COUNT(uc.user_course_id) AS courses_completed
+FROM users u
+JOIN user_courses uc ON u.UserID = uc.user_id
+WHERE uc.progress = 100
+GROUP BY u.UserID, u.UserName
+ORDER BY courses_completed DESC;
+
+-- 5. Number of users under each different subject:
+SELECT c.subject, COUNT(DISTINCT uc.user_id) AS total_users
+FROM courses c
+JOIN user_courses uc ON c.course_id = uc.course_id
+GROUP BY c.subject;
+
+-- 6. Number of users under each different difficulty (course level):
+SELECT c.level, COUNT(DISTINCT uc.user_id) AS total_users
+FROM courses c
+JOIN user_courses uc ON c.course_id = uc.course_id
+GROUP BY c.level;
+
+
