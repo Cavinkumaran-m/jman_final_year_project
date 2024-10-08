@@ -31,8 +31,8 @@ export default function Page() {
       })
       .then((res) => {
         if (res) {
-          console.log(PathParser(res.data));
-          setData(PathParser(res.data));
+          console.log(res.data);
+          setData(PathParser(res.data.user_course, res.data.predictions));
         }
       })
       .catch((error) => console.log("cav", error));

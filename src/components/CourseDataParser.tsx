@@ -101,7 +101,10 @@ function createLeafNode(
   };
 }
 
-export function PathParser(res: userCourseType[]): FlowNode | null {
+export function PathParser(
+  res: userCourseType[],
+  pred: CourseType[]
+): FlowNode | null {
   if (res.length === 0) {
     return null;
   }
@@ -117,6 +120,10 @@ export function PathParser(res: userCourseType[]): FlowNode | null {
     });
     pointer.children?.push(child);
     pointer = child;
+  }
+
+  for (var i = 0; i < pred.length; i++) {
+    pointer.children?.push(createNode(pred[i].course_title));
   }
 
   return root;

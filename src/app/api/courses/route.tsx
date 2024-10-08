@@ -163,9 +163,40 @@ export async function POST(request: NextRequest) {
       },
     });
 
+    const courses_id = user_course.map((course) => course.course_id);
+    console.log(courses_id);
+    const res = await fetch("http://localhost:8000/predict", {
+      method: "POST",
+      headers: { "content-Type": "application/json" },
+      body: JSON.stringify({
+        sequences: [courses_id],
+      }),
+    });
+
+    if (res.status !== 200) {
+      console.log(res.statusText);
+      return NextResponse.json(
+        {
+          error: res.statusText,
+        },
+        { status: 500 }
+      );
+    }
+
+    const res_json = await res.json();
+    // console.log(res_json.predicted_course_ids);
+
+    const pred_course = await prisma.courses.findMany({
+      where: {
+        course_id: { in: res_json.predicted_course_ids },
+      },
+    });
+
+    // console.log(pred_course);
+
     return NextResponse.json(
       {
-        data: user_course,
+        data: { user_course, predictions: pred_course },
       },
       { status: 200 }
     );

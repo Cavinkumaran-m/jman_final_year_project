@@ -144,3 +144,4 @@ JOIN user_courses uc ON c.course_id = uc.course_id
 GROUP BY c.level;
 
 
+truncate table user_courses;
