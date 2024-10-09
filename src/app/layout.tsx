@@ -24,6 +24,7 @@ export default function RootLayout({
   const [loggedIn, setLoggedIn] = useState(false);
   const [id, setId] = useState(null);
   const [token, setToken] = useState(false);
+  const [triggerRender, setTriggerRender] = useState(0);
   const clearAuth = () => {
     setUserName(null);
     setFullName(null);
@@ -44,6 +45,7 @@ export default function RootLayout({
             loggedIn,
             token,
             id,
+            triggerRender,
             setUserName,
             setFullName,
             setIsAdmin,
@@ -51,6 +53,7 @@ export default function RootLayout({
             setToken,
             setId,
             clearAuth,
+            setTriggerRender,
           }}
         >
           <ToastContainer

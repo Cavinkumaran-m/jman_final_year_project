@@ -84,7 +84,9 @@ export default function SignInForm() {
           setLoggedIn(true);
           setUserName(res.userName);
           setId(res.id);
-          res.role === "admin" ? router.push("/dashboard") : router.push("/");
+          res.role === "admin"
+            ? router.push("/dashboard")
+            : router.push("/home");
         }
       })
       .catch((error) => {

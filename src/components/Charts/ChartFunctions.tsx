@@ -104,4 +104,5 @@ function topUsersWithCourseCompleted(data: any) {
 
 export default chartDataParser;
 
-export const colors = ["#DEACF5", "#9754CB", "#6237A0", "#28104E"];
+// export const colors = ["#DEACF5", "#9754CB", "#6237A0", "#28104E"];
+export const colors = ["#3282b8", "#0f4c75", "#bbe1fa", "#0f4c75"];

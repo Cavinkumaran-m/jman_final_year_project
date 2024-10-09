@@ -11,7 +11,7 @@ import Spinner from "@/components/Spinner";
 import { toast } from "react-toastify";
 
 export default function Page() {
-  const { isAdmin, loggedIn } = useAuthContext();
+  const { isAdmin, loggedIn, triggerRender } = useAuthContext();
   const router = useRouter();
   const [data, setData] = useState<any | null>(null);
 
@@ -40,7 +40,7 @@ export default function Page() {
         }
       })
       .catch((error) => console.log("cav", error));
-  }, []);
+  }, [triggerRender]);
 
   return (
     <>

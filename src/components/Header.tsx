@@ -6,13 +6,52 @@ import Button from "./Button";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useAuthContext } from "@/configs/Context";
+import baseUrl from "@/configs/Baseurl";
+import { toast } from "react-toastify";
 
 export const Header = () => {
-  const { userName, isAdmin, loggedIn, clearAuth } = useAuthContext();
+  const {
+    userName,
+    isAdmin,
+    loggedIn,
+    clearAuth,
+    setUserName,
+    setIsAdmin,
+    setLoggedIn,
+    setFullName,
+    setId,
+    setTriggerRender,
+  } = useAuthContext();
+
   const router = useRouter();
   useEffect(() => {
     if (!loggedIn) {
-      router.replace("/auth");
+      fetch(baseUrl + "auth/checkCookie")
+        .then((response) => {
+          if (response.status === 400) {
+            router.replace("/");
+            return null;
+          }
+          return response.json();
+        })
+        .then((res) => {
+          if (res) {
+            setFullName(res.fullName);
+            setIsAdmin(res.role === "admin" ? true : false);
+            setLoggedIn(true);
+            setUserName(res.userName);
+            setId(res.id);
+            console.log(res);
+            res.role === "admin"
+              ? router.push("/dashboard")
+              : router.push("/home");
+            setTriggerRender((prev: number) => prev + 1);
+          }
+        })
+        .catch((error) => {
+          console.log("cav", error);
+        });
+      // router.replace("/");
     }
   });
   return (
@@ -54,7 +93,7 @@ export const Header = () => {
                 router.push("/dashboard");
                 return;
               }
-              router.push("/");
+              router.push("/home");
             }}
             style={{ cursor: "pointer" }}
           >
@@ -69,8 +108,24 @@ export const Header = () => {
             <div>
               <Button
                 onClick={() => {
-                  clearAuth();
-                  router.replace("/auth");
+                  fetch(baseUrl + "auth/logout")
+                    .then((response) => {
+                      if (response.status !== 200) {
+                        response.json().then((res) => toast.error(res.error));
+                        return null;
+                      }
+                      return response.json();
+                    })
+                    .then((res) => {
+                      if (res) {
+                        toast.success(res.message);
+                        clearAuth();
+                        router.replace("/");
+                      }
+                    })
+                    .catch((error) => {
+                      console.log("cav", error);
+                    });
                 }}
                 className="bg-danger"
               >

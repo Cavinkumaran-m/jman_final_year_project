@@ -24,7 +24,7 @@ export const SideBar = () => {
       </div>
       <div className={`offcanvas-body d-flex flex-column ${styles.link}`}>
         {!isAdmin && (
-          <Link href={"/"} style={{ textDecoration: "none" }}>
+          <Link href={"/home"} style={{ textDecoration: "none" }}>
             HOME
           </Link>
         )}
