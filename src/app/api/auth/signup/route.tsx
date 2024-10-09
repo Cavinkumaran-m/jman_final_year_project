@@ -21,6 +21,9 @@ export async function POST(request: NextRequest) {
     });
     return NextResponse.json({ message: "Account Created Successfully" });
   } else {
-    return NextResponse.json({ error: "UserName Already Exists" });
+    return NextResponse.json(
+      { error: "UserName Already Exists" },
+      { status: 400 }
+    );
   }
 }

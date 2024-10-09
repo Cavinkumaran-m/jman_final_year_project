@@ -45,7 +45,7 @@ export default function Modal({
               </button>
               <button
                 type="button"
-                className="btn btn-primary"
+                className="btn btn-primary bg-success"
                 onClick={() => {
                   if (onClickAction) {
                     onClickAction();

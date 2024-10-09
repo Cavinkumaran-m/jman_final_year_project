@@ -9,6 +9,8 @@ import Context from "../configs/Context";
 import { useState } from "react";
 import Modal from "@/components/Modal";
 import { ModalContext } from "@/configs/Context";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function RootLayout({
   children,
@@ -51,6 +53,18 @@ export default function RootLayout({
             clearAuth,
           }}
         >
+          <ToastContainer
+            position="bottom-center"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="dark"
+          />
           <Header />
           <SideBar />
           <Modal

@@ -8,6 +8,7 @@ import BarChart from "@/components/Charts/BarChart";
 import PieChart from "@/components/Charts/PieChart";
 import chartDataParser from "@/components/Charts/ChartFunctions";
 import Spinner from "@/components/Spinner";
+import { toast } from "react-toastify";
 
 export default function Page() {
   const { isAdmin, loggedIn } = useAuthContext();
@@ -24,7 +25,10 @@ export default function Page() {
     fetch(baseUrl + "metrics")
       .then((response) => {
         if (response.status !== 200) {
-          response.json().then((res) => console.log(res.error));
+          response.json().then((res) => {
+            console.log(res.error);
+            toast.error(res.error);
+          });
           return null;
         }
         return response.json();
@@ -32,7 +36,7 @@ export default function Page() {
       .then((res) => {
         if (res) {
           setData(chartDataParser(res.data));
-          console.log(chartDataParser(res.data));
+          // console.log(chartDataParser(res.data));
         }
       })
       .catch((error) => console.log("cav", error));

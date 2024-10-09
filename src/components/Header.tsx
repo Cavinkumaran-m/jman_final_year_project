@@ -46,6 +46,14 @@ export const Header = () => {
           <div
             className="display-6"
             onClick={() => {
+              if (!loggedIn) {
+                router.push("/auth");
+                return;
+              }
+              if (isAdmin) {
+                router.push("/dashboard");
+                return;
+              }
               router.push("/");
             }}
             style={{ cursor: "pointer" }}

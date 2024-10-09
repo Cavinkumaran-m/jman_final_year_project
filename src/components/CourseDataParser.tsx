@@ -42,7 +42,7 @@ export default function Parser(
   root.children?.push(MusicalInstrumentNode);
   root.children?.push(BusinessFinanceNode);
   root.children?.push(WebDevelopmentNode);
-  console.log(root);
+  // console.log(root);
   return root;
 }
 
@@ -105,13 +105,18 @@ export function PathParser(
   res: userCourseType[],
   pred: CourseType[]
 ): FlowNode | null {
+  var root = null;
   if (res.length === 0) {
-    return null;
+    root = createNode("Start Your Journey", {
+      id: 0,
+      status: "cum",
+    });
+  } else {
+    root = createNode(res[0].courses.course_title, {
+      id: res[0].course_id,
+      status: "completed",
+    });
   }
-  const root = createNode(res[0].courses.course_title, {
-    id: res[0].course_id,
-    status: "completed",
-  });
   var pointer = root;
   for (var i = 1; i < res.length; i++) {
     const child = createNode(res[i].courses.course_title, {
@@ -123,7 +128,9 @@ export function PathParser(
   }
 
   for (var i = 0; i < pred.length; i++) {
-    pointer.children?.push(createNode(pred[i].course_title));
+    pointer.children?.push(
+      createLeafNode(pred[i].course_title, { id: pred[i].course_id })
+    );
   }
 
   return root;

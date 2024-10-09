@@ -2,13 +2,13 @@
   border-radius: 5px;
   padding: 10px;
   text-align: center;
-  background-color: var(--accent-color);
+  background-color: var(--primary-color);
   color: white;
 }
 
 .button:hover {
   cursor: pointer;
   background-color: white !important;
-  color: var(--accent-color);
-  border: 1px var(--accent-color) solid;
+  color: var(--secondary-color);
+  border: 1px var(--secondary-color) solid;
 }

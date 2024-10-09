@@ -7,6 +7,7 @@ import { useRef } from "react";
 import baseUrl from "@/configs/Baseurl";
 import { useAuthContext } from "@/configs/Context";
 import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 
 export default function SignInForm() {
   const router = useRouter();
@@ -70,13 +71,14 @@ export default function SignInForm() {
     })
       .then((response) => {
         if (response.status !== 200) {
-          response.json().then((res) => console.log(res.error));
+          response.json().then((res) => toast.error(res.error));
           return null;
         }
         return response.json();
       })
       .then((res) => {
         if (res) {
+          toast.success("Login Success");
           setFullName(res.fullName);
           setIsAdmin(res.role === "admin" ? true : false);
           setLoggedIn(true);
@@ -85,7 +87,9 @@ export default function SignInForm() {
           res.role === "admin" ? router.push("/dashboard") : router.push("/");
         }
       })
-      .catch((error) => console.log("cav", error));
+      .catch((error) => {
+        console.log("cav", error);
+      });
     setError(null);
   };
 
@@ -110,13 +114,17 @@ export default function SignInForm() {
     })
       .then((response) => {
         if (response.status !== 200) {
-          console.log("Error");
+          response.json().then((res) => toast.error(res.error));
           return null;
         }
         return response.json();
       })
       .then((res) => {
-        console.log(res);
+        if (res) {
+          toast.success(res.message);
+          console.log(res.message);
+          setSignIn((prev) => !prev);
+        }
       })
       .catch((error) => console.log(error));
     setError(null);

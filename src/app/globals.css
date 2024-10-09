@@ -1,10 +1,49 @@
 body {
   margin: 0;
+  /* background-color: var(--accent-color); */
 }
 
 :root {
-  --primary-color: #9754cb;
+  /* --primary-color: #9754cb;
   --secondary-color: #deacf5;
   --accent-color: #6237a0;
-  --background-color: #28104e;
+  --background-color: #28104e; */
+  --primary-color: #3282b8;
+  --secondary-color: #0f4c75;
+  --accent-color: #bbe1fa;
+  --background-color: #1b262c;
+}
+
+.progress-bar {
+  background-color: var(--accent-color) !important;
+  color: var(--secondary-color) !important;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  /* Webkit browsers (Chrome, Safari) */
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  background: var(--accent-color); /* Change thumb color */
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+input[type="range"]::-moz-range-thumb {
+  /* Firefox */
+  width: 20px;
+  height: 20px;
+  background: var(--accent-color); /* Change thumb color */
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+input[type="range"]::-ms-thumb {
+  /* Internet Explorer */
+  width: 20px;
+  height: 20px;
+  background: var(--accent-color); /* Change thumb color */
+  border-radius: 50%;
+  cursor: pointer;
 }

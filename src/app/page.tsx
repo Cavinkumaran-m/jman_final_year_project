@@ -5,6 +5,7 @@ import { useAuthContext } from "@/configs/Context";
 import baseUrl from "@/configs/Baseurl";
 import { CourseCard } from "@/components/CourseCards";
 import { PlaceHolder } from "@/components/PlaceHolder";
+import { toast } from "react-toastify";
 
 export default function Home() {
   const { id, loggedIn } = useAuthContext();
@@ -28,7 +29,10 @@ export default function Home() {
     })
       .then((response) => {
         if (response.status !== 200) {
-          response.json().then((res) => console.log(res.error));
+          response.json().then((res) => {
+            console.log(res.error);
+            toast.error(res.error);
+          });
           return null;
         }
         return response.json();

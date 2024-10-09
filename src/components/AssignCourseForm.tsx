@@ -3,6 +3,7 @@
 import baseUrl from "@/configs/Baseurl";
 import { useEffect, useState, useRef } from "react";
 import Button from "./Button";
+import { toast } from "react-toastify";
 
 type selectedCourse = { title: string; courseId: number };
 
@@ -26,7 +27,10 @@ export default function AssignCourseForm({
     fetch(baseUrl + "courses")
       .then((response) => {
         if (response.status !== 200) {
-          response.json().then((res) => console.log(res.error));
+          response.json().then((res) => {
+            console.log(res.error);
+            toast.error(res.error);
+          });
           return null;
         }
         return response.json();
@@ -42,6 +46,7 @@ export default function AssignCourseForm({
 
   const assignHandler = () => {
     if (!selectedCourse) {
+      toast.warn("No course selected");
       console.log("No course selected");
       return;
     }
@@ -59,7 +64,10 @@ export default function AssignCourseForm({
     })
       .then((response) => {
         if (response.status !== 200) {
-          response.json().then((res) => console.log(res.error));
+          response.json().then((res) => {
+            console.log(res.error);
+            toast.error(res.error);
+          });
           return null;
         }
         return response.json();
@@ -67,6 +75,7 @@ export default function AssignCourseForm({
       .then((res) => {
         if (res) {
           //   console.log(res.message);
+          toast.success("Course Assigned Successfully");
           setRefresh((prev) => prev + 1);
         }
       })

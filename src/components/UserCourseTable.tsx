@@ -3,12 +3,13 @@ import { formatDate } from "./Time";
 import baseUrl from "@/configs/Baseurl";
 import { useModalContext } from "@/configs/Context";
 import { useEffect, useState, useRef } from "react";
+import { toast } from "react-toastify";
 
 export default function UserCourseTable({
   data,
   setRefresh,
 }: {
-  data: [userCourseType] | null;
+  data: userCourseType[] | null;
   setRefresh: React.Dispatch<React.SetStateAction<number>>;
 }) {
   const { setModalData } = useModalContext();
@@ -35,18 +36,24 @@ export default function UserCourseTable({
     })
       .then((response) => {
         if (response.status !== 200) {
-          response.json().then((res) => console.log(res.error));
+          response.json().then((res) => {
+            toast.error(res.error);
+            console.log(res.error);
+          });
           return null;
         }
         return response.json();
       })
       .then((res) => {
         if (res) {
+          toast.success(res.message);
           console.log(res.message);
           setRefresh((prev) => prev + 1);
         }
       })
-      .catch((error) => console.log("cav", error));
+      .catch((error) => {
+        console.log("cav", error);
+      });
   };
 
   useEffect(() => {
@@ -152,6 +159,13 @@ export default function UserCourseTable({
             ))}
           </tbody>
         </table>
+      )}
+      {data?.length === 0 && (
+        <center className="my-2">
+          <b>
+            <span className="border rounded p-1">NO DATA</span>
+          </b>
+        </center>
       )}
     </>
   );

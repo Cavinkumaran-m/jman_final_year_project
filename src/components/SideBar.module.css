@@ -1,0 +1,7 @@
+.link a {
+  color: white;
+  background-color: var(--primary-color);
+  margin: 10px 0 10px 0;
+  padding: 10px;
+  border-radius: 0 20px 0 0;
+}

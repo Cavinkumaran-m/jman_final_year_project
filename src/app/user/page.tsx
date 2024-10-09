@@ -6,6 +6,7 @@ import Table from "@/components/UserTable";
 import { useAuthContext } from "@/configs/Context";
 import { useRouter } from "next/navigation";
 import Spinner from "@/components/Spinner";
+import { toast } from "react-toastify";
 
 export default function Page() {
   const router = useRouter();
@@ -20,7 +21,10 @@ export default function Page() {
     fetch(baseUrl + "users")
       .then((response) => {
         if (response.status !== 200) {
-          response.json().then((res) => console.log(res.error));
+          response.json().then((res) => {
+            console.log(res.error);
+            toast.error(res.error);
+          });
           return null;
         }
         return response.json();

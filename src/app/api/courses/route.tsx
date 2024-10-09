@@ -164,7 +164,7 @@ export async function POST(request: NextRequest) {
     });
 
     const courses_id = user_course.map((course) => course.course_id);
-    console.log(courses_id);
+    // console.log(courses_id);
     const res = await fetch("http://localhost:8000/predict", {
       method: "POST",
       headers: { "content-Type": "application/json" },

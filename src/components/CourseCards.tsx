@@ -6,6 +6,7 @@ import { useModalContext } from "@/configs/Context";
 import { useEffect } from "react";
 import baseUrl from "@/configs/Baseurl";
 import { useAuthContext } from "@/configs/Context";
+import { toast } from "react-toastify";
 
 export const CourseCard = ({
   id,
@@ -57,13 +58,17 @@ export const CourseCard = ({
           })
             .then((response) => {
               if (response.status !== 200) {
-                response.json().then((res) => console.log(res.error));
+                response.json().then((res) => {
+                  console.log(res.error);
+                  toast.error(res.error);
+                });
                 return null;
               }
               return response.json();
             })
             .then((res) => {
               if (res) {
+                toast.success(res.message);
                 console.log(res.message);
               }
             })

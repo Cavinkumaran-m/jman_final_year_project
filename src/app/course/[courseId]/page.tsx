@@ -6,6 +6,7 @@ import { useAuthContext } from "@/configs/Context";
 import styles from "./CourseDetails.module.css";
 import Button from "@/components/Button";
 import Spinner from "@/components/Spinner";
+import { toast } from "react-toastify";
 
 export default function Page({ params }: { params: { courseId: number } }) {
   const { id, loggedIn } = useAuthContext();
@@ -30,13 +31,17 @@ export default function Page({ params }: { params: { courseId: number } }) {
     })
       .then((response) => {
         if (response.status !== 200) {
-          response.json().then((res) => console.log(res.error));
+          response.json().then((res) => {
+            console.log(res.error);
+            toast.error(res.error);
+          });
           return null;
         }
         return response.json();
       })
       .then((res) => {
         if (res) {
+          toast.success(res.message);
           console.log(res.message);
           setRefresh((prev) => prev + 1);
         }
@@ -49,7 +54,10 @@ export default function Page({ params }: { params: { courseId: number } }) {
     fetch(baseUrl + "courses?course=" + params.courseId + "&user=" + id)
       .then((response) => {
         if (response.status !== 200) {
-          response.json().then((res) => console.log(res.error));
+          response.json().then((res) => {
+            console.log(res.error);
+            toast.error(res.error);
+          });
           return null;
         }
         return response.json();

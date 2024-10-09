@@ -10,6 +10,7 @@ import { formatDate } from "@/components/Time";
 import UserCourseTable from "@/components/UserCourseTable";
 import AssignCourseForm from "@/components/AssignCourseForm";
 import Spinner from "@/components/Spinner";
+import { toast } from "react-toastify";
 
 export default function Page({ params }: { params: { userId: string } }) {
   const router = useRouter();
@@ -26,7 +27,10 @@ export default function Page({ params }: { params: { userId: string } }) {
     fetch(baseUrl + "users?&user=" + params.userId)
       .then((response) => {
         if (response.status !== 200) {
-          response.json().then((res) => console.log(res.error));
+          response.json().then((res) => {
+            toast.error(res.error);
+            console.log(res.error);
+          });
           return null;
         }
         return response.json();

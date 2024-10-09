@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { useAuthContext } from "@/configs/Context";
+import styles from "./SideBar.module.css";
 
 export const SideBar = () => {
   const { isAdmin } = useAuthContext();
@@ -21,7 +22,7 @@ export const SideBar = () => {
           aria-label="Close"
         ></button>
       </div>
-      <div className="offcanvas-body d-flex flex-column">
+      <div className={`offcanvas-body d-flex flex-column ${styles.link}`}>
         {!isAdmin && (
           <Link href={"/"} style={{ textDecoration: "none" }}>
             HOME
