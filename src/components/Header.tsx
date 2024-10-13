@@ -41,7 +41,7 @@ export const Header = () => {
             setLoggedIn(true);
             setUserName(res.userName);
             setId(res.id);
-            console.log(res);
+            // console.log(res);
             res.role === "admin"
               ? router.push("/dashboard")
               : router.push("/home");

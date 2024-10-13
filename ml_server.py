@@ -4,12 +4,14 @@ import numpy as np
 from keras.models import load_model
 import collections
 import pandas as pd
+import os
 
 # Initialize FastAPI app
 app = FastAPI()
 # Load the pre-trained Keras model (e.g., the one you saved earlier)
 print("! ! ! MACHINE LEARNING MODEL LOADING ! ! !")
-model = load_model("ml_artifacts/lstm_v1.keras")
+model_path = os.path.abspath("ml_artifacts/lstm_v1.keras")
+model = load_model(model_path)
 print("! ! ! MACHINE LEARNING MODEL LOADED ! ! !")
 
 # Sample data - UserIDs, course sequences and scores
