@@ -19,7 +19,7 @@ export async function middleware(request: NextRequest) {
       new TextEncoder().encode(JWT_SECRET)
     );
 
-    console.log(payload);
+    // console.log(payload);
 
     return NextResponse.next();
   } catch (error) {

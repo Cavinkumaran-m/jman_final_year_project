@@ -7,7 +7,7 @@
 .yarn/install-state.gz
 
 # python 
-/__pycahce_
+/__pycache_
 
 # testing
 /coverage
