@@ -6,6 +6,9 @@
 .pnp.js
 .yarn/install-state.gz
 
+# python 
+/__pycahce_
+
 # testing
 /coverage
 
